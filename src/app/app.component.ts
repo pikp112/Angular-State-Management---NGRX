@@ -17,19 +17,33 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { AppState } from './states/app.state';
 import { selectCount } from './states/counter/counter.selector';
+import { ProductComponent } from './product/product.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, HeaderComponent, FooterComponent, HeroComponent, MatButtonModule, MatSidenavModule,ScreenSizeDirective,
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    HeaderComponent,
+    FooterComponent,
+    HeroComponent,
+    MatButtonModule,
+    MatSidenavModule,
+    ScreenSizeDirective,
     MatSidenavModule,
     MatCheckboxModule,
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    CounterComponent],
+    CounterComponent,
+    ProductComponent,
+    RouterLink,
+    RouterOutlet
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'angular-material-tailwind-boilerplate';
@@ -37,6 +51,11 @@ export class AppComponent {
   sidebarSignal = inject(SideBarSignal);
   screenSignal = inject(ScreenSizeSignal);
   currentScreen = '';
+  count$: Observable<number>;
+
+  constructor(private store: Store<AppState>) {
+    this.count$ = store.select(selectCount);
+  }
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
