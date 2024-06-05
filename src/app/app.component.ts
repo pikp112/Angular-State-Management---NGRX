@@ -1,5 +1,5 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/components/header/header.component';
 import { FooterComponent } from './core/components/footer/footer.component';
@@ -12,6 +12,11 @@ import { MatInputModule } from '@angular/material/input';
 import { SideBarSignal } from './shared/signals/sidebar.signal';
 import { ScreenSizeDirective } from './shared/directives/screen-size.directive';
 import { ScreenSizeSignal } from './shared/signals/screen-size.signal';
+import { CounterComponent } from './counter/counter.component';
+import { Observable } from 'rxjs/internal/Observable';
+import { Store } from '@ngrx/store';
+import { AppState } from './states/app.state';
+import { selectCount } from './states/counter/counter.selector';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +26,8 @@ import { ScreenSizeSignal } from './shared/signals/screen-size.signal';
     MatCheckboxModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatInputModule,],
+    MatInputModule,
+    CounterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
