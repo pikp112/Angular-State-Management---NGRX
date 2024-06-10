@@ -18,6 +18,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from './states/app.state';
 import { selectCount } from './states/counter/counter.selector';
 import { ProductComponent } from './product/product.component';
+import { IProduct } from './shared/models/product.interface';
+import { selectCartProducts } from './states/cart/cart.selector';
 
 @Component({
   selector: 'app-root',
@@ -52,9 +54,11 @@ export class AppComponent {
   screenSignal = inject(ScreenSizeSignal);
   currentScreen = '';
   count$: Observable<number>;
+  products$: Observable<IProduct[]>;
 
   constructor(private store: Store<AppState>) {
     this.count$ = store.select(selectCount);
+    this.products$ = store.select(selectCartProducts);
   }
 
   @ViewChild('sidenav') sidenav!: MatSidenav;

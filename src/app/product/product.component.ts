@@ -5,21 +5,31 @@ import { Observable } from 'rxjs';
 import { ProductCardComponent } from '../shared/componets/product-card/product-card.component';
 import { IProduct } from '../shared/models/product.interface';
 import { ProductApiService } from '../shared/services/product-api.service';
+import { Store } from '@ngrx/store';
+import { addToCard } from '../states/cart/cart.action';
+import * as ProductActions from '../states/product/product.action';
+import * as ProductSelectors from '../states/product/product.selector';
 
 @Component({
   selector: 'app-product',
   standalone: true,
   imports: [AsyncPipe, CommonModule, HttpClientModule, ProductCardComponent],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.scss'
+  styleUrl: './product.component.scss',
 })
-export class ProductComponent implements OnInit{
- http = inject(HttpClient);
- productApi = inject(ProductApiService);
- error = '';
- products$ = this.http.get('https://fakestoreapi.com/products') as Observable<IProduct[]>;
- ngOnInit(): void {
-  throw new Error('Method not implemented.');
-}
+export class ProductComponent implements OnInit {
+  productApi = inject(ProductApiService);
+  products$!: Observable<IProduct[]>;
+  error!: Observable<string | null>;
+  constructor(private store:Store<{cart: {products:IProduct[]}}>){
+    this.store.dispatch(ProductActions.loadProduct());
+    this.products$ = this.store.select(ProductSelectors.selectAllProducts);
+    this.error = this.store.select(ProductSelectors.selectProductError);
+  }
 
+
+  ngOnInit(): void {}
+  addItemToCart(product: IProduct) {
+    this.store.dispatch(addToCard({product}));
+  }
 }
