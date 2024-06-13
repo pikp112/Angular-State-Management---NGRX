@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { IProduct } from '../../models/product.interface';
 import { EventEmitter } from 'stream';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-product-card',
@@ -12,12 +13,12 @@ import { EventEmitter } from 'stream';
 })
 export class ProductCardComponent implements OnInit{
   @Input() product!: IProduct;
-  @Output() handleAdd = new EventEmitter();
+  @Output() handleAdd = new Subject<IProduct>();
 
   ngOnInit(): void {
   }
 
   addToCart(product: IProduct) {
-    this.handleAdd.emit(product);
+    this.handleAdd.next(product);
   }
 }
