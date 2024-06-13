@@ -1,4 +1,5 @@
-import { patchState, signalStore, withMethods, withState } from "@ngrx/signals";
+import { computed } from "@angular/core";
+import { patchState, signalStore, withComputed, withMethods, withState } from "@ngrx/signals";
 
 export interface CounterState {
     count: number;
@@ -10,6 +11,9 @@ const initialCounterState: CounterState = {
 
 export const CounterStore = signalStore(
     withState(initialCounterState),
+    withComputed(({count}) => ({
+        doubleCount: computed(() => count() * 2)
+    })),
     withMethods(({count, ...store}) => ({
         increment() {
             patchState(store, {count: count() + 1})
