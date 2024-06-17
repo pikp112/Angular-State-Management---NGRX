@@ -7,7 +7,7 @@
             style="color: red;">SIGNAL</span> STORE</div>
         <div>
           <button routerLink="/cart" class="text-gray-600 dark:text-gray-300 hover:underline">Cart
-            <span>{{ products$ | async}}</span></button>
+            <span>{{ cartStore.products().length }}</span></button>
 
           <!-- Add more navigation items here -->
         </div>

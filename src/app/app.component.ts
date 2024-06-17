@@ -20,6 +20,7 @@ import { selectCount } from './states/counter/counter.selector';
 import { ProductComponent } from './product/product.component';
 import { IProduct } from './shared/models/product.interface';
 import { selectCartProducts } from './states/cart/cart.selector';
+import { CartStore } from './store/cart.store';
 
 @Component({
   selector: 'app-root',
@@ -55,6 +56,7 @@ export class AppComponent {
   currentScreen = '';
   count$: Observable<number>;
   products$: Observable<IProduct[]>;
+  cartStore = inject(CartStore);
 
   constructor(private store: Store<AppState>) {
     this.count$ = store.select(selectCount);
